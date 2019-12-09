@@ -62,7 +62,7 @@ void
 setup() 
 {
 	/* Sets baud rate to 9600, thermocouple acts up at higher rates */
-	Serial.begin(9600);
+	Serial.begin(BAUD_RATE);
 	
 	/* Set pins to desired modes */
 	pinMode(LED_PIN, OUTPUT);
