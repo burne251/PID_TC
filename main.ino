@@ -29,19 +29,19 @@
 #define DO_PIN 12
 #define CLK_PIN 13
 #define LED_PIN 3
-#define BUTTON_PIN 2
+#define BUTTON_PIN A0
 #define LIGHT_PIN 5
 #define FAN_PIN 6
 /* define the time for the heating element to cycle, and the temp setpoint */
-#define CYCLE_TIME_MS 1000
+#define CYCLE_TIME_MS 750
 #define THERMO_SETPOINT 25
 /* 
  * Experimentally determined optimal gain values with Ziegler-Nicholls method. 
  * Will vary from setup to setup.
  */
-#define KP_GAIN 9
-#define KI_GAIN 3.6
-#define KD_GAIN 5.625
+#define KP_GAIN 3
+#define KI_GAIN 1.2
+#define KD_GAIN 1.875
 /* 
  * Recommended to keep the baud rate at 9600, thermocouple has weird issues 
  * otherwise that I don't really have time to figure out admittedly.
@@ -72,7 +72,10 @@ setup()
 
 	/* Set target value for PID to indicated degrees Celsius */
 	setpoint = THERMO_SETPOINT;
-  	
+	
+	/* Initialize output at 50% */
+	output = 128;
+
 	/* 
 	 * Initialize thermocouple, declare type (should work for other 
 	 * thermocouples using the MAX31856.
@@ -151,6 +154,7 @@ loop()
 			 * Debugging stuff, outputs output and PV to a serial 
 			 * monitor 
 			 */
+			Serial.print("Output value: ");
 			Serial.println(output);
 		    	Serial.print("Thermocouple Temp: "); 
     			Serial.println(pv);
